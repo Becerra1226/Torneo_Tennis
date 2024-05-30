@@ -196,10 +196,10 @@ input {
   background-color: #34495e; /* Color de fondo */
   border-radius: 5px; /* Borde redondeado */
   margin: 10px 0; /* Márgenes */
-  border: 1px solid #bdc3c7; /* Borde */
+  border: 1px solid #ffffff; /* Borde */
   width: 80%;
   padding: 10px;
-  color: #2c3e50; /* Color de texto */
+  color: #ffffff; /* Color de texto */
 }
 
 input:hover {
@@ -236,7 +236,7 @@ input:hover {
 
 /* Label */
 label {
-  background-color: #34495e; /* Color de fondo */
+  background-color: #3e527e; /* Color de fondo */
   border-radius: 5px; /* Borde redondeado */
   border: none; /* Sin borde */
   width: 100%;
@@ -251,7 +251,7 @@ label {
 .texto {
   margin-top: 10px;
   font-size: 18px;
-  color: #2c3e50; /* Color de texto */
+  color: #ffffff; /* Color de texto */
   font-family: 'Roboto', sans-serif;
 }
 
