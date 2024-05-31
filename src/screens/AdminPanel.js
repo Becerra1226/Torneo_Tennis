@@ -1,10 +1,16 @@
+// Importar React y el hook useState para gestionar el estado local del componente
 import React, { useState } from 'react';
-import { getFirestore,collection, addDoc } from 'firebase/firestore';
+// Importar funciones necesarias de Firestore para interactuar con la base de datos
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
+// Importar las credenciales de Firebase
 import firebaseApp from '../firebase/credenciales';
 
+// Inicializar Firestore con las credenciales de Firebase
 const firestore = getFirestore(firebaseApp);
 
+// Definir el componente funcional AdminPanel que permite crear un nuevo torneo
 function AdminPanel({ onVolver }) {
+  // Estado local para almacenar los datos del nuevo torneo
   const [nuevoTorneo, setNuevoTorneo] = useState({
     nombre: '',
     fechaLimite: '',
@@ -13,9 +19,11 @@ function AdminPanel({ onVolver }) {
     participantesRegistrados: 0
   });
 
+  // Función para manejar la creación de un nuevo torneo
   const handleCrearTorneo = async (event) => {
-    event.preventDefault();
+    event.preventDefault(); // Evitar el comportamiento por defecto del formulario
     try {
+      // Agregar un nuevo documento a la colección 'torneos' en Firestore con los datos del nuevo torneo
       const docRef = await addDoc(collection(firestore, 'torneos'), nuevoTorneo);
       console.log("Torneo creado con ID: ", docRef.id);
       // Limpiar el formulario después de la creación exitosa
@@ -30,7 +38,6 @@ function AdminPanel({ onVolver }) {
       console.error("Error al crear el torneo: ", error);
     }
   };
-
   return (
     <div className='crear-torneo'>
       <form onSubmit={handleCrearTorneo}>

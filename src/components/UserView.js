@@ -6,25 +6,33 @@ import tenisImage from "../img/tenis.png";
 
 const auth = getAuth(firebaseApp);
 
+// Componente UserView que muestra la vista del usuario con los torneos disponibles y los torneos registrados
 function UserView({ torneosIniciales = [], torneosRegistrados = [], onRegistroTorneo }) {
+  // Estados para controlar el estado de la barra lateral y los torneos registrados
   const [isSidebarOpen, setSidebarOpen] = useState(false);
   const [registrados, setRegistrados] = useState(torneosRegistrados);
   const [torneos, setTorneos] = useState(torneosIniciales);
 
+  // Efecto para actualizar los torneos iniciales cuando cambian
   useEffect(() => {
     setTorneos(torneosIniciales);
   }, [torneosIniciales]);
 
+  // Función para alternar el estado de la barra lateral
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
   };
 
+  // Función para cerrar la barra lateral
   const closeSidebar = () => {
     setSidebarOpen(false);
   };
 
+  // Función para manejar el registro de un torneo
   const handleRegistroTorneo = (torneoId) => {
-       onRegistroTorneo(torneoId);
+    // Llama a la función proporcionada por el padre para registrar un torneo
+    onRegistroTorneo(torneoId);
+    // Actualiza el estado de los torneos registrados
     setRegistrados((prevRegistrados) => [...prevRegistrados, torneoId]);
   };
 

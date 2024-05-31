@@ -9,7 +9,9 @@ import tenisImage from "../img/tenis.png";
 const firestore = getFirestore(firebaseApp);
 const auth = getAuth(firebaseApp);
 
+// El componente AdminView que contiene la lógica y la interfaz para administrar los torneos
 function AdminView() {
+  // Estados para controlar el estado del formulario y los torneos
   const [mostrarFormularioCrear, setMostrarFormularioCrear] = useState(false);
   const [editarTorneoId, setEditarTorneoId] = useState(null);
   const [torneos, setTorneos] = useState([]);
@@ -22,11 +24,14 @@ function AdminView() {
     participantesRegistrados: 0
   });
 
+  // Efecto para cargar los torneos al montar el componente
   useEffect(() => {
     const fetchTorneos = async () => {
       try {
+        // Obtener la colección de torneos desde Firestore
         const torneosCollection = collection(firestore, 'torneos');
         const torneosSnapshot = await getDocs(torneosCollection);
+        // Mapear los documentos a un formato deseado y establecerlos en el estado
         const torneosData = torneosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setTorneos(torneosData);
         setLoading(false);
@@ -38,15 +43,18 @@ function AdminView() {
     fetchTorneos();
   }, []);
 
+  // Función para manejar la edición de un torneo
   const handleEditarTorneo = (id, torneo) => {
     setEditarTorneoId(id);
     setFormularioEdicion(torneo);
   };
 
+  // Función para guardar los cambios editados en un torneo
   const handleGuardarEdicion = async () => {
     try {
       const torneoDoc = doc(firestore, 'torneos', editarTorneoId);
       await updateDoc(torneoDoc, formularioEdicion);
+      // Actualizar la lista de torneos con los cambios guardados
       const torneosActualizados = torneos.map(torneo => {
         if (torneo.id === editarTorneoId) {
           return { ...torneo, ...formularioEdicion };
@@ -60,10 +68,12 @@ function AdminView() {
     }
   };
 
+  // Función para eliminar un torneo
   const handleEliminarTorneo = async (id) => {
     try {
       const torneoDoc = doc(firestore, 'torneos', id);
       await deleteDoc(torneoDoc);
+      // Filtrar los torneos para eliminar el torneo correspondiente y actualizar la lista
       const torneosFiltrados = torneos.filter(torneo => torneo.id !== id);
       setTorneos(torneosFiltrados);
     } catch (error) {
@@ -71,6 +81,7 @@ function AdminView() {
     }
   };
 
+  // Función para manejar los cambios en el formulario de edición
   const handleFormularioEdicionChange = (e) => {
     const { name, value } = e.target;
     setFormularioEdicion(prevState => ({
